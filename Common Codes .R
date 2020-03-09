@@ -16,7 +16,6 @@ data <- read.csv(file="Data.csv", head=T, stringsAsFactors = FALSE)
 write.csv(Data,"~/Desktop/basket_transactions.csv",quote=FALSE, row.names=TRUE)
 
 
-
 ######### understand the data
 View(data)
 head(data)
@@ -63,14 +62,29 @@ newdata <-data[complete.cases(data),]
 retail$Date <- as.Date(retail$InvoiceDate)
 InvoiceNo <- as.numeric(as.character(retail$InvoiceNo))
 
-
 #mutate function is used to edit or add new columns to dataframe.
 install.packages('dplyr')
 library(dplyr)
 data %>% mutate(Description = as.factor(Description))
 data %>% mutate(Country = as.factor(Country))
 
+######### create vectors with zero value
+######### fill in new values 
 
+### get the number of subjects we are using
+nS <-length(Subjects)
+
+### rep(0,nS) creates a vector with ns zeros
+### for example we will create 3 vectors to store the mean, .25 quantile, and .75 quantile
+MeanValues <- rep(0,nS) 
+FirstQaurtile <- rep(0,nS)
+ThirdQaurtile<- rep(0,nS)
+
+### This is a for loop 
+for (j in 1:nS){
+  MeanValues[j] <- mean(DATA[,j], na.rm = TRUE)
+  FirstQaurtile[j]<-quantile(DATA[,j],0.25, na.rm = TRUE)
+  ThirdQaurtile[j]<-quantile(DATA[,j],0.75, na.rm = TRUE)
 
 
 
@@ -120,3 +134,7 @@ plot(samplesizes,
      lwd=5,axes=FALSE)
 axis(1,at=c(0,50000,100000,150000,200000))
 axis(2,at=c(0,0.25,0.5,0.75,1),labels=paste(c(0,25,50,75,100),"%"))
+
+
+
+
