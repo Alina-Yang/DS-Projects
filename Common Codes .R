@@ -56,7 +56,6 @@ data$v3 <- data$v5 <- NULL
 newdata <-data[complete.cases(data),]
 
 
-
 ############ convert data type
 #Converts character data to date. Store InvoiceDate as date in new variable
 retail$Date <- as.Date(retail$InvoiceDate)
@@ -135,6 +134,14 @@ plot(samplesizes,
 axis(1,at=c(0,50000,100000,150000,200000))
 axis(2,at=c(0,0.25,0.5,0.75,1),labels=paste(c(0,25,50,75,100),"%"))
 
-
-
+#############################################
+# ggplot
+#############################################
+ggplot(data=iris, aes(x=SepalLengthCm))+
+  geom_histogram(binwidth=0.2, color="black", aes(fill=Species)) + 
+  xlab("Sepal Length (cm)") +  
+  ylab("Frequency") + 
+  theme(legend.position="none")+
+  ggtitle("Histogram of Sepal Length")+
+  geom_vline(data=iris, aes(xintercept = mean(SepalLengthCm)),linetype="dashed",color="grey")
 
